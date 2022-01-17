@@ -8,9 +8,9 @@ export default function GameBoard(props) {
     let board = dataService.buildNewBoard(props.boardSize)
     // console.log(props)
     // console.table(board)
-    let renderCells = (array) => array.map((cell) => <td key={cell._id}>{cell.testText}</td>)
-    let renderRow = (array) => <tr>{renderCells(array)}</tr>
-    let BoardToRender = board.map(row => renderRow(row))
+    // let renderCells = (array) => array.map((cell) => <td key={cell._id}>{cell.testText}</td>)
+    // let renderRow = (array) => <tr>{renderCells(array)}</tr>
+    // let BoardToRender = board.map(row => renderRow(row))
     // console.log(BoardToRender)
 
 
@@ -18,7 +18,7 @@ export default function GameBoard(props) {
         <div className="game-board-container">
             <table>
                 <tbody>
-                {board.map(row => <SingleRow row={row} />)}
+                {board.map((row, idx) => {return <SingleRow row={row} key={idx} />})}
                 </tbody>
             </table>
         </div>

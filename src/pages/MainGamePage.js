@@ -1,12 +1,19 @@
 import React from "react"
 import {useNavigate} from 'react-router-dom'
 import { useEffect, useState } from "react"
-import { dataService } from "../services/data-service.js"
+// import { dataService } from "../services/data-service.js"
+//===============================================================================
+
 
 //COMPONENT IMPORTS /////////////////////////////
+//===============================================================================
+
 import MainGameHeadline from '../components/MainGameHeadline.js'
 import GameBoard from "../components/GameBoard/GameBoard.js"
+import Timer from "../components/Timer.js"
 
+
+//===============================================================================
 
 // let navigate = useNavigate()
 
@@ -39,7 +46,7 @@ export default function MainGamePage(){
     useEffect(
         ()=> {
             // console.table(board)
-            console.log('Started!!!')
+            // console.log('Started!!!')
         }, [])
         
         let navigate = useNavigate()
@@ -52,11 +59,8 @@ export default function MainGamePage(){
         <div className="main-game-page">
             <h1 onClick={()=> navigateTo('/ScoreBoard')}>To Scoreboard</h1>
             <MainGameHeadline />
-            <table>
-                <tbody>
+            <Timer />
                     <GameBoard boardSize={boardSize} />
-                </tbody>
-            </table>
             
         </div>
 )

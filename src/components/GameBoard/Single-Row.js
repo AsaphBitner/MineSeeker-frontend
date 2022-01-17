@@ -9,12 +9,10 @@ export default function GameBoard(props) {
     
     return (
         <tr>
-            {props.row.map(cell => <SingleCell cell={cell} />)}
+            {props.row.map(cell => <SingleCell cell={cell} key={cell._id} />)}
         </tr>
     )
 }
 
 
 
-
-{/* <td>cell.testText</td> */}
