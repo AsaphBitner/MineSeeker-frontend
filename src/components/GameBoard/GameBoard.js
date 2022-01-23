@@ -1,24 +1,24 @@
 import React from "react";
 import { dataService } from "../../services/data-service";
-import SingleRow from './Single-Row.js'
+import SingleRow from './SingleRow.js'
+import { useState, useEffect } from "react";
 
 
 export default function GameBoard(props) {
-
-    let board = dataService.buildNewBoard(props.boardSize)
-    // console.log(props)
-    // console.table(board)
-    // let renderCells = (array) => array.map((cell) => <td key={cell._id}>{cell.testText}</td>)
-    // let renderRow = (array) => <tr>{renderCells(array)}</tr>
-    // let BoardToRender = board.map(row => renderRow(row))
-    // console.log(BoardToRender)
+    const [board, setBoard] = useState(null) 
+    
+    useEffect(() => {
+        if (!props.boardSize) return
+        const newBoard = dataService.buildNewBoard(props.boardSize)
+        setBoard(oldBoard => newBoard)
+    }, [props.boardSize])
 
 
     return (
         <div className="game-board-container">
             <table>
                 <tbody>
-                {board.map((row, idx) => {return <SingleRow row={row} key={idx} />})}
+                {(board) ? board.map((row, idx) => {return <SingleRow row={row} key={idx} />}) : <tr></tr>}
                 </tbody>
             </table>
         </div>

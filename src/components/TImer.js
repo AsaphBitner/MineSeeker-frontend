@@ -14,8 +14,8 @@ export default function Timer(props) {
             if (tempTime.seconds === 60) {tempTime.seconds = 0; tempTime.minutes++}
             if (tempTime.minutes === 60) {tempTime.minutes = 0; tempTime.hours++}
             if (tempTime.hours === 100) {tempTime.hours = 0}
-            setTime((time) => {return tempTime}) 
-            console.log(time)
+            setTime(prevTime => tempTime) 
+            // console.log(time)
             const zeroSec = (time.seconds < 10) ? '0' : ''
             const zeroMin = (time.minutes < 10) ? '0' : ''
             const zeroHr = (time.hours < 10) ? '0' : ''
@@ -26,25 +26,6 @@ export default function Timer(props) {
             clearInterval(timerInterval)
         }
     }, [time])
-    
-    // const moveTime = ()=> {
-    //     // if (!1+1==2) return
-    //         // count++ 
-    //         // console.log(`interval called ${count} times`) 
-    //         const tempTime = cloneDeep(time)
-    //         tempTime.seconds++
-    //         if (tempTime.seconds === 60) {tempTime.seconds = 0; tempTime.minutes++}
-    //         if (tempTime.minutes === 60) {tempTime.minutes = 0; tempTime.hours++}
-    //         if (tempTime.hours === 100) {tempTime.hours = 0}
-    //         setTime(prevTime => tempTime) 
-    //         console.log(time)
-    //         const zeroSec = (time.seconds < 10) ? '0' : ''
-    //         const zeroMin = (time.minutes < 10) ? '0' : ''
-    //         const zeroHr = (time.hours < 10) ? '0' : ''
-    //         setTimeToShow(`${zeroHr}${time.hours}:${zeroMin}${time.minutes}:${zeroSec}${time.seconds}`)
-        
-    // }
-
 
 
     return (

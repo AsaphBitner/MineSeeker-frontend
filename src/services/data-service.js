@@ -15,7 +15,7 @@ function buildNewBoard(size) {
     for (var ii = 0; ii < size; ii++) {
         board.push([]);
         for (var jj = 0; jj < size; jj++)
-            board[ii][jj] = { _id: makeId(), mineInCell: false, flagInCell: false, cellClicked: false, minesAround: -1, testText: 'A!!!', };
+            board[ii][jj] = { _id: makeId(), mineInCell: false, flagInCell: false, cellClicked: false, minesAround: -1, row: ii, column: jj };
     }
     return board;
 }
