@@ -40,12 +40,17 @@ export default function MainGamePage(){
     // const MINE = '💣';
     // const BOOM = '💥';
     // const FLAG = '🚩';
-    const SMILE = '🙂';
+    const SMILE = '🙂'
     // const SADFACE = '😥';
     // const COOLGUY = '😎';
+    // Beginner (4*4 with 2 MINES)
+// Medium (8 * 8 with 12 MINES)
+// Expert (12 * 12 with 30 MINES)
     const [boardSize, setBoardSize] = useState(4)
     const [extraLives, setExtraLives] = useState(3) 
-    const [safeClicks, setSafeClicks] = useState(3) 
+    const [safeClicks, setSafeClicks] = useState(3)
+    const [numOfMines, setNumOfMines] = useState(2)
+
     const [smiley, setSmiley] = useState(SMILE) 
     const navigate = useNavigate()
     const navigateTo = (target) => navigate(target)    
@@ -56,18 +61,20 @@ export default function MainGamePage(){
 
     useEffect(
         ()=> {
-            
-            // function initGame() {
-            //     // console.log('Let\'s start!');
-            //     gBoard = buildBoard(gSize);
-            //     renderBoard(gBoard);
-            //     gGameOn = false;
-            //     updateSmiley('play');
-            //     flagChange(0, 0, 0)
-            // };
-            // console.table(board)
-            // console.log('Started!!!')
-        }, [])
+            switch (boardSize) {
+                case 4:
+                    setNumOfMines(oldNum => 2)
+                    break;                
+                case 8:
+                    setNumOfMines(oldNum => 12)
+                    break;
+                case 12:
+                    setNumOfMines(oldNum => 30)
+                    break;    
+                default:
+                    console.log('No Mines!!!!!!!')
+            }
+        }, [boardSize])
         
      
 

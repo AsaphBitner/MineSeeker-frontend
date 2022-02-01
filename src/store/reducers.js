@@ -1,13 +1,11 @@
 
-function myReducer(state = {}, action = {}){
+export default function myReducer(state = {}, action = {}){
     let cell;
     switch(action.type) {
-        case 'GET_STATE':
+        case 'UPDATE_STATE':
             return state
-        case 'REMOVE BAMIA':
-            bamias = state.bamias.slice()
-            bamias.pop()
-            return {...state, bamias}
+        case 'UPDATE_BOARD':
+            return {...state, gameBoard: action.gameBoard}
         default: 
             return state
     }   

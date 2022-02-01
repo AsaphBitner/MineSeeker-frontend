@@ -11,6 +11,7 @@ export default function GameBoard(props) {
         if (!props.boardSize) return
         const newBoard = dataService.buildNewBoard(props.boardSize)
         setBoard(oldBoard => newBoard)
+        console.log('PROPS::: ', props)
     }, [props.boardSize])
 
 

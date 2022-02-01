@@ -3,8 +3,10 @@ import MainGamePage from './pages/MainGamePage.js'
 // import 'assets/style/main.scss
 import ScoreBoard from './pages/ScoreBoard.js';
 import {connect} from 'react-redux'
+import {buildNewBoard} from './store/actions'
 
-function _App() {
+function _App(props) {
+  console.log('APP PROPS: ', props)
   return (
     <Router>
       <div className="App">
@@ -18,4 +20,11 @@ function _App() {
   );
 }
 
-export const App = connect()(_App)
+const mapStateToProps = state => {
+  return {...state}
+}
+const mapDispatchToProps = {
+  buildNewBoard,
+}
+
+export const App = connect(mapStateToProps, mapDispatchToProps)(_App)

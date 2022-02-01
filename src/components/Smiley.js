@@ -6,20 +6,6 @@ export default function Smiley(props) {
     // const [extraLives, setExtraLives] = useState(props.extraLives) 
     const [smiley, setSmiley] = useState('') 
     
-    // let howManyLives = ()=> 
-    //     {switch (props.extraLives) {
-    //         case 3:
-    //             return `♥♥♥`
-    //         case 2: 
-    //             return '♥♥'
-    //         case 1:
-    //             return '♥'
-    //         case 0: 
-    //             return ''    
-    //         default:
-    //             return '';
-    //     }}
-    
     useEffect(() => {
         setSmiley(prevSmiley => props.smiley)
     }, [props.smiley])
