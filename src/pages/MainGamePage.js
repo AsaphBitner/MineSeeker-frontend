@@ -1,6 +1,9 @@
 import React from "react"
 import {useNavigate} from 'react-router-dom'
 import { useEffect, useState } from "react"
+import { buildNewBoard, changeBoardSize } from "../store/actions.js"
+import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 // import { dataService } from "../services/data-service.js"
 //===============================================================================
 
@@ -18,7 +21,9 @@ import Smiley from "../components/Smiley.js"
 
 // let navigate = useNavigate()
 
-export default function MainGamePage(){
+function _MainGamePage(props){
+   const state = useSelector(state => state)
+console.log('Main Game Page: ', props)
 //     var gSize = 4;
 // var gNumOfMines = 2;
 // var gAvailableFlags = gNumOfMines;
@@ -59,8 +64,13 @@ export default function MainGamePage(){
         console.log('Boardsize is ', size, '!')
     }
 
-    useEffect(
-        ()=> {
+    useEffect( () => {
+        changeBoardSize(4)
+        console.log(state)
+        }, [])
+
+     useEffect(
+        async ()=> {
             switch (boardSize) {
                 case 4:
                     setNumOfMines(oldNum => 2)
@@ -93,3 +103,13 @@ export default function MainGamePage(){
 )
 
 }
+
+const mapStateToProps = state => {
+    return {...state}
+  }
+  const mapDispatchToProps = {
+    changeBoardSize,
+    buildNewBoard,
+  }
+
+  export const MainGamePage = connect(mapStateToProps, mapDispatchToProps)(_MainGamePage)
