@@ -11,37 +11,39 @@ export const dataService = {
 }
 
 
-function _save(payload){
+async function _save(payload){
     localStorage.setItem(payload.key, JSON.stringify(payload.item))
+    return Promise.resolve(payload.item)
 }
 
 
-function _load(payload){
-    const board = JSON.parse(localStorage.getItem(payload))
-    return board
+async function _load(payload){
+    const item = JSON.parse(localStorage.getItem(payload))
+    return Promise.resolve(item)
 }
 
 
 
-function buildNewBoard(size) {
+async function buildNewBoard(size) {
     let board = [];
     for (var ii = 0; ii < size; ii++) {
         board.push([]);
         for (var jj = 0; jj < size; jj++)
             board[ii][jj] = { _id: makeId(), mineInCell: false, flagInCell: false, cellClicked: false, minesAround: -1, row: ii, column: jj };
     }
-    _save('gameBoard', board)
+    await _save('gameBoard', board)
     return board;
 }
 
-function updateCell(payload){
+async function updateCell(payload){
     const board = _load('gameBoard')
     board[payload.row].splice(payload.column, 1, payload)
-    _save('gameBoard', board)
+    await _save('gameBoard', board)
+    return board
 }
 
 
-function placeMines({size, numMines, row, column}) {
+async function placeMines({size, numMines, row, column}) {
     let minesPlaced = 0;
     let board = _load('gameBoard')
     while (minesPlaced < numMines) {

@@ -1,7 +1,7 @@
 import React from "react"
 import {useNavigate} from 'react-router-dom'
 import { useEffect, useState } from "react"
-import { buildNewBoard, changeBoardSize } from "../store/actions.js"
+import { buildNewBoard, changeBoardSize, changeGameOver, changeGameOn, changeNumOfMines, changeLives, changeSafeClicks, changeSmiley, changeFlags, changeTime } from "../store/actions.js"
 import { connect } from "react-redux"
 import { useSelector } from "react-redux"
 // import { dataService } from "../services/data-service.js"
@@ -12,18 +12,19 @@ import { useSelector } from "react-redux"
 //===============================================================================
 
 import MainGameHeadline from '../components/MainGameHeadline.js'
-import GameBoard from "../components/GameBoard/GameBoard.js"
-import Timer from "../components/Timer.js"
-import ExtraLives from "../components/ExtraLives.js"
-import SafeToClick from "../components/SafeToClick.js"
+import {GameBoard} from "../components/GameBoard/GameBoard.js"
+import {Timer} from "../components/Timer.js"
+import {Lives} from "../components/Lives.js"
+import {SafeClicks} from "../components/SafeClicks.js"
 import Smiley from "../components/Smiley.js"
 //===============================================================================
 
 // let navigate = useNavigate()
 
 function _MainGamePage(props){
-   const state = useSelector(state => state)
-console.log('Main Game Page: ', props)
+    const state = useSelector(state => state)
+    const navigate = useNavigate()
+// console.log('Main Game Page: ', props)
 //     var gSize = 4;
 // var gNumOfMines = 2;
 // var gAvailableFlags = gNumOfMines;
@@ -37,68 +38,70 @@ console.log('Main Game Page: ', props)
 // let gameOver = false
 // let gameOn = false
 // let gameLastOutcome = ''
-// let board;
-// board = dataService.buildNewBoard(boardSize)
-// let boardToRender;
-    // const [gameIsOn, setGameIsOn] = useState(false)
-    // const [gameIsOver, setGameIsOver] = useState(false)
     // const MINE = '💣';
     // const BOOM = '💥';
     // const FLAG = '🚩';
-    const SMILE = '🙂'
-    // const SADFACE = '😥';
-    // const COOLGUY = '😎';
+    const smile = '🙂'
+    // const sadFace = '😥';
+    // const coolFace = '😎';
     // Beginner (4*4 with 2 MINES)
-// Medium (8 * 8 with 12 MINES)
-// Expert (12 * 12 with 30 MINES)
-    const [boardSize, setBoardSize] = useState(4)
-    const [extraLives, setExtraLives] = useState(3) 
-    const [safeClicks, setSafeClicks] = useState(3)
-    const [numOfMines, setNumOfMines] = useState(2)
-
-    const [smiley, setSmiley] = useState(SMILE) 
-    const navigate = useNavigate()
+    // Medium (8 * 8 with 12 MINES)
+    // Expert (12 * 12 with 30 MINES)
+    
+    
     const navigateTo = (target) => navigate(target)    
 
     const startNewGame = (size)=> {
         console.log('Boardsize is ', size, '!')
     }
 
+    // ComponentDidMount
     useEffect( () => {
-        changeBoardSize(4)
-        console.log(state)
+        props.changeBoardSize(4)
+        props.changeNumOfMines(2)
+        props.changeGameOn(false)
+        props.changeGameOver(false)
+        props.changeSafeClicks(3)
+        props.changeLives(4)
+        props.changeSmiley(smile)
+        props.buildNewBoard(4)
+        props.changeFlags(2)
+        props.changeTime({seconds: 0, minutes: 0, hours: 0, hundreds: 0})
+        // console.log(state)
+
         }, [])
 
-     useEffect(
-        async ()=> {
-            switch (boardSize) {
-                case 4:
-                    setNumOfMines(oldNum => 2)
-                    break;                
-                case 8:
-                    setNumOfMines(oldNum => 12)
-                    break;
-                case 12:
-                    setNumOfMines(oldNum => 30)
-                    break;    
-                default:
-                    console.log('No Mines!!!!!!!')
-            }
-        }, [boardSize])
+    //  useEffect(
+    //     async ()=> {
+    //         switch (boardSize) {
+    //             case 4:
+    //                 setNumOfMines(oldNum => 2)
+    //                 break;                
+    //             case 8:
+    //                 setNumOfMines(oldNum => 12)
+    //                 break;
+    //             case 12:
+    //                 setNumOfMines(oldNum => 30)
+    //                 break;    
+    //             default:
+    //                 console.log('No Mines!!!!!!!')
+    //         }
+    //     }, [boardSize])
+    // console.log(state)
         
      
 
      
 
-    return (
+    if (state) return (
         <div className="main-game-page">
             <h1 onClick={()=> navigateTo('/ScoreBoard')}>To Scoreboard</h1>
             <MainGameHeadline />
             <Timer />
-            <ExtraLives extraLives={extraLives} setExtraLives={setExtraLives} />
-            <SafeToClick safeClicks={safeClicks} setSafeClicks={setSafeClicks} />
-            <Smiley smiley={smiley} boardSize={boardSize} startNewGame={startNewGame} />            
-            <GameBoard boardSize={boardSize}  />
+            <Lives />
+            {/* <SafeClicks /> */}
+            {/* <Smiley startNewGame={startNewGame} />             */}
+            {/* <GameBoard /> */}
         </div>
 )
 
@@ -110,6 +113,14 @@ const mapStateToProps = state => {
   const mapDispatchToProps = {
     changeBoardSize,
     buildNewBoard,
+    changeGameOn,
+    changeGameOver,
+    changeNumOfMines,
+    changeLives, 
+    changeSafeClicks, 
+    changeSmiley,
+    changeFlags,
+    changeTime,
   }
 
   export const MainGamePage = connect(mapStateToProps, mapDispatchToProps)(_MainGamePage)

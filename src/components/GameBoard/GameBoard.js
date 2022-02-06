@@ -1,27 +1,32 @@
 import React from "react";
-import { dataService } from "../../services/data-service";
 import SingleRow from './SingleRow.js'
-import { useState, useEffect } from "react";
+import { buildNewBoard } from "../../store/actions";
+import { useSelector } from "react-redux";
+import { connect } from "react-redux";
 
-
-export default function GameBoard(props) {
-    const [board, setBoard] = useState(null) 
-    
-    useEffect(() => {
-        if (!props.boardSize) return
-        const newBoard = dataService.buildNewBoard(props.boardSize)
-        setBoard(oldBoard => newBoard)
-    }, [props.boardSize])
-
+function _GameBoard(props) {
+    let state = useSelector(state => state)
+    // console.log(state.gameBoard)
 
     return (
         <div className="game-board-container">
             <table>
                 <tbody>
-                {(board) ? board.map((row, idx) => {return <SingleRow row={row} key={idx} />}) : <tr></tr>}
+                {(state.gameBoard) ? state.gameBoard.map((row, idx) => {return <SingleRow row={row} key={idx} />}) : <tr></tr>}
                 </tbody>
             </table>
         </div>
     )
 
 }
+
+const mapStateToProps = state => {
+    return {...state}
+  }
+  const mapDispatchToProps = {
+    // changeBoardSize,
+    buildNewBoard,
+    // tester,
+  }
+
+  export const GameBoard = connect(mapStateToProps, mapDispatchToProps)(_GameBoard)

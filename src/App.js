@@ -11,7 +11,7 @@ function _App(props) {
     <Router>
       <div className="App">
         <Routes>
-          <Route exact path="/" element={<MainGamePage testing={'TESTING!!!!!!!!!!!!'} />} />
+          <Route exact path="/" element={<MainGamePage />} />
           <Route exact path="/ScoreBoard" element={<ScoreBoard/>}></Route>
         </Routes>  
 
