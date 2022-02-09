@@ -6,7 +6,7 @@ export default function SingleRow(props) {
 
     return (
         <tr>
-            {props.row.map(cell => <SingleCell cell={cell} key={cell._id} />)}
+            {props.row.map(cell => <SingleCell cell={{cell}} key={cell._id} />)}
         </tr>
     )
 }

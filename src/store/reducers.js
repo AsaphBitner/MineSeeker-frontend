@@ -27,6 +27,8 @@ export default function myReducer(state = defaultState, action = {}){
             return {...state, numOfFlags: action.order}
         case 'CHANGE_TIME':
             return {...state, time: action.payload}
+        case 'ZERO_TIMER':
+            return {...state, zeroTimer: action.payload}
         default: 
             return state
     }   

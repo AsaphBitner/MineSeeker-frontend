@@ -23,7 +23,7 @@ export function updateCell(cell){
 export function changeBoardSize(size) {
     return async (dispatch) => {
         await dataService._save('boardSize', size)
-        dispatch({type: 'CHANGE_GAME_ON', boardSize: size})
+        dispatch({type: 'CHANGE_SIZE', boardSize: size})
     }
 } 
 
@@ -84,6 +84,10 @@ export function changeTime(payload) {
     }
 }
 
-
+export function zeroTimer(payload) {
+    return (dispatch) => {
+        dispatch({type: 'ZERO_TIMER', payload})
+    }
+}
 
 

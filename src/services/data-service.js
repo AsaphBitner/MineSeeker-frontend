@@ -11,9 +11,9 @@ export const dataService = {
 }
 
 
-async function _save(payload){
-    localStorage.setItem(payload.key, JSON.stringify(payload.item))
-    return Promise.resolve(payload.item)
+async function _save(key, item){
+    localStorage.setItem(key, JSON.stringify(item))
+    return Promise.resolve(item)
 }
 
 
@@ -29,14 +29,15 @@ async function buildNewBoard(size) {
     for (var ii = 0; ii < size; ii++) {
         board.push([]);
         for (var jj = 0; jj < size; jj++)
-            board[ii][jj] = { _id: makeId(), mineInCell: false, flagInCell: false, cellClicked: false, minesAround: -1, row: ii, column: jj };
+            board[ii][jj] = { _id: makeId(), mineInCell: false, flagInCell: false, cellClicked: false, minesAround: -1, row: ii, column: jj, cellContents: '' };
     }
     await _save('gameBoard', board)
     return board;
 }
 
 async function updateCell(payload){
-    const board = _load('gameBoard')
+    let board = await _load('gameBoard')
+    // console.log(payload)
     board[payload.row].splice(payload.column, 1, payload)
     await _save('gameBoard', board)
     return board

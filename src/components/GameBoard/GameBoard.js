@@ -6,10 +6,10 @@ import { connect } from "react-redux";
 
 function _GameBoard(props) {
     let state = useSelector(state => state)
-    // console.log(state.gameBoard)
+    // console.log(state.numOfFlags)
 
     return (
-        <div className="game-board-container">
+        <div className="game-board-container" onContextMenu={(ev) => {ev.preventDefault()}}>
             <table>
                 <tbody>
                 {(state.gameBoard) ? state.gameBoard.map((row, idx) => {return <SingleRow row={row} key={idx} />}) : <tr></tr>}

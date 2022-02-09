@@ -10,19 +10,24 @@ function _Lives(props) {
     let livesToShow = ()=> 
         {switch (state.lives) {
             case 4:
-                return `♥♥♥`
+                return `💖 💖 💖`
             case 3: 
-                return '♥♥'
+                return '💖 💖 _'
             case 2:
-                return '♥'
+                return '💖 _ _'
             case 1: 
-                return ''    
+                return '_ _ _'    
             default:
-                return '';
+                return '_ _ _';
         }}
 
+        const noExtraLives = () => {
+            if (state.gameOn) {props.changeLives(1)}
+        }
+
+
     return (
-        <div className="extra-lives" onClick={() => props.changeLives(1)}>
+        <div className="extra-lives" onClick={() => noExtraLives()}>
          {livesToShow()}
         </div>
     )
