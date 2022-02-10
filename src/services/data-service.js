@@ -58,8 +58,28 @@ async function placeMines({size, numMines, row, column}) {
             }
         }
     }
+
+    for (let ii = 0; ii < size; ii++){
+        for (let jj = 0; jj < size; jj++){
+            board[ii][jj].minesAround = updateMinesAround(board, ii, jj)
+        }
+    }
+
     _save('gameBoard', board)
+    return board
 };
+
+function updateMinesAround(board, row, column){
+    let counter = 0
+    for (var ii = row-1; ii < row+2; ii++) {
+        for (var jj = column-1; jj < column+2; jj++) {
+            if (ii < 0 || jj < 0 || ii >= board[0].length || jj >= board[0].length || (ii === row && jj === column)) {continue}
+            else if (board[ii][jj].mineInCell) {counter++}
+        }
+    } 
+    return counter
+}
+
 
 // Beginner (4*4 with 2 MINES)
 // Medium (8 * 8 with 12 MINES)

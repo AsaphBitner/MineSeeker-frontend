@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { dataService } from "../../services/data-service.js"
 import { useSelector } from "react-redux";
 import { connect } from "react-redux";
-import { updateCell, buildNewBoard, changeBoardSize, changeGameOver, changeGameOn, changeNumOfMines, changeLives, changeSafeClicks, changeSmiley, changeFlags, changeTime } from "../../store/actions.js"
+import { updateCell, buildNewBoard, placeMines, changeBoardSize, changeGameOver, changeGameOn, changeNumOfMines, changeLives, changeSafeClicks, changeSmiley, changeFlags, changeTime } from "../../store/actions.js"
 
 function _SingleCell(props) {
     let [openClosed, setOpenClosed] = useState('closed')
@@ -12,10 +12,16 @@ function _SingleCell(props) {
         
     const handleLeftClick = (ev)=> {
         ev.preventDefault()
-        if (cell.flagInCell || cell.cellClicked) {return}
-        else if (openClosed === 'closed') 
-        {props.updateCell(cell); cell.cellClicked = true; setOpenClosed('open')}
-        if (!state.gameOn && !state.gameOver) {props.changeGameOn(true)} 
+        if (cell.flagInCell || cell.cellClicked || state.gameOver) {return}
+        else {props.updateCell(cell); cell.cellClicked = true; setOpenClosed('open')}
+        if (!state.gameOn && !state.gameOver) {
+            props.changeGameOn(true)
+            let payload = {
+                size: state.boardsize, numMines: state.numOfMines, row: cell.row, column: cell.column
+            }
+            props.placeMines(payload)
+        } 
+        if (cell.mineInCell) {cell.cellContents = '💣'} else if (cell.minesAround) {cell.cellContents = cell.minesAround} else {cell.cellContents = ''}
         // dataService.placeMines(4, 2, props.row, props.column)
         // console.log(state.gameOn)
     }
@@ -51,6 +57,7 @@ const mapStateToProps = state => {
     changeSmiley,
     changeFlags,
     changeTime,
+    placeMines,
   }
 
   export const SingleCell = connect(mapStateToProps, mapDispatchToProps)(_SingleCell)

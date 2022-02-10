@@ -11,7 +11,7 @@ function _Smiley(props) {
     const smiley = state.smiley
 
     return (
-        <div className="smiley" onClick={()=> props.startNewGame(state.boardSize)} >
+        <div className="smiley" onClick={()=> props.resetGame(state.boardSize)} >
          <span>{smiley}</span>
         </div>
     )

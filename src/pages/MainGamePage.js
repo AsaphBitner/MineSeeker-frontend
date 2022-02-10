@@ -52,9 +52,9 @@ function _MainGamePage(props) {
 
     const navigateTo = (target) => navigate(target)
 
-    const startNewGame = (size) => {
-        console.log('Boardsize is ', size, '!')
-    }
+    // const startNewGame = (size) => {
+    //     console.log('Boardsize is ', size, '!')
+    // }
 
     // ComponentDidMount
     useEffect(() => {
@@ -140,7 +140,7 @@ function _MainGamePage(props) {
                     <Timer />
                 </div>
                 <div className="smiley-and-board">
-                <Smiley startNewGame={startNewGame} />
+                <Smiley resetGame={resetGame} />
                 <GameBoard />
                 </div>
             </div>

@@ -17,7 +17,14 @@ export function updateCell(cell){
     return async (dispatch) => {
     let board = await dataService.updateCell(cell)
     dispatch({type: 'UPDATE_BOARD', gameBoard: board})
+    }
 }
+
+export function placeMines(payload){ 
+    return async (dispatch) => {
+    let board = await dataService.placeMines(payload)
+    dispatch({type: 'UPDATE_BOARD', gameBoard: board})
+    }
 }
 
 export function changeBoardSize(size) {
