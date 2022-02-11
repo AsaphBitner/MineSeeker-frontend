@@ -13,7 +13,7 @@ function _SingleCell(props) {
     }
     // console.log(cell)
         
-    const handleLeftClick = (ev)=> {
+    const handleLeftClick = async (ev)=> {
         ev.preventDefault()
         if (cell.flagInCell || cell.cellClicked || state.gameOver) {return}
         if (!state.gameOn && !state.gameOver) {
@@ -21,12 +21,12 @@ function _SingleCell(props) {
             let payload = {
                 size: state.boardSize, numMines: state.numOfMines, row: cell.row, column: cell.column
             }
-            props.placeMines(payload)
+            await props.placeMines(payload)
         } 
         // console.log(state.gameBoard)
         if (cell.mineInCell) {cell.cellContents = '💣'} else if (cell.minesAround) {cell.cellContents = cell.minesAround} else {cell.cellContents = ''}
         cell.cellClicked = true
-        // props.updateCell(cell)
+        props.updateCell(cell)
         // console.log(cell.cellContents)
         // dataService.placeMines(4, 2, props.row, props.column)
         // console.log(cell.mineInCell)

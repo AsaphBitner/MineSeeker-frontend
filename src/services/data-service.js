@@ -11,14 +11,14 @@ export const dataService = {
 }
 
 
-async function _save(key, item){
+function _save(key, item){
     localStorage.setItem(key, JSON.stringify(item))
     // console.log(key, ' ', item)
     return Promise.resolve(item)
 }
 
 
-async function _load(payload){
+function _load(payload){
     const item = JSON.parse(localStorage.getItem(payload))
     return Promise.resolve(item)
 }
