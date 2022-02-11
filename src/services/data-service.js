@@ -13,6 +13,7 @@ export const dataService = {
 
 async function _save(key, item){
     localStorage.setItem(key, JSON.stringify(item))
+    // console.log(key, ' ', item)
     return Promise.resolve(item)
 }
 
@@ -45,39 +46,42 @@ async function updateCell(payload){
 
 
 async function placeMines({size, numMines, row, column}) {
+    // console.log(size, numMines, row, column)
+    // board[row][column].cellClicked = true
     let minesPlaced = 0;
-    let board = _load('gameBoard')
+    let board = await _load('gameBoard')
     while (minesPlaced < numMines) {
         for (var ii = 0; ii < size; ii++) {
             for (var jj = 0; jj < size; jj++) {
-                if (minesPlaced === numMines) { return };
+                // console.log(numMines, minesPlaced)
+                // const test = (ii, jj) => {return ((ii, jj) => console.log(board[ii][jj]))}
+                if (minesPlaced === numMines) { break };
                 if (ii === row && jj === column) { continue };
                 if (board[ii][jj].mineInCell) { continue }
-                else if (Math.random() < (numMines / (size * size))) { board[ii][jj].mineInCell = true; minesPlaced++ };
-                
+                else if (Math.random() < (numMines / (size * size))) { board[ii][jj].mineInCell = true; minesPlaced++ };    
             }
         }
     }
-
-    for (let ii = 0; ii < size; ii++){
-        for (let jj = 0; jj < size; jj++){
-            board[ii][jj].minesAround = updateMinesAround(board, ii, jj)
-        }
-    }
-
-    _save('gameBoard', board)
+    
+    // for (let ll = 0; ll < size; ll++){
+    //     for (let mm = 0; mm < size; mm++){
+    //         board[ll][mm].minesAround = updateMinesAround(board, size, ll, mm)
+    //     }
+    // }        
+    // console.log('SAVING ', board)
+    await _save('gameBoard', board)
     return board
-};
+}
 
-function updateMinesAround(board, row, column){
+function updateMinesAround(board, size, row, column){
     let counter = 0
-    for (var ii = row-1; ii < row+2; ii++) {
-        for (var jj = column-1; jj < column+2; jj++) {
-            if (ii < 0 || jj < 0 || ii >= board[0].length || jj >= board[0].length || (ii === row && jj === column)) {continue}
-            else if (board[ii][jj].mineInCell) {counter++}
-        }
-    } 
-    return counter
+    // for (var ii = row-1; ii < row+2; ii++) {
+    //     for (var jj = column-1; jj < column+2; jj++) {
+    //         if (ii < 0 || jj < 0 || ii >= size || jj >= size || (ii === row && jj === column)) {continue}
+    //         else if (board[ii][jj].mineInCell) {counter++}
+    //     }
+    // } 
+    return counter  
 }
 
 

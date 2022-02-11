@@ -5,26 +5,32 @@ import { connect } from "react-redux";
 import { updateCell, buildNewBoard, placeMines, changeBoardSize, changeGameOver, changeGameOn, changeNumOfMines, changeLives, changeSafeClicks, changeSmiley, changeFlags, changeTime } from "../../store/actions.js"
 
 function _SingleCell(props) {
-    let [openClosed, setOpenClosed] = useState('closed')
+    // let [openClosed, setOpenClosed] = useState('closed')
     let state = useSelector(state => state)
     let cell = props.cell.cell
+    const openClosed = () => {
+        if (cell.cellClicked) {return 'open'} else {return 'closed'}
+    }
     // console.log(cell)
         
     const handleLeftClick = (ev)=> {
         ev.preventDefault()
         if (cell.flagInCell || cell.cellClicked || state.gameOver) {return}
-        else {props.updateCell(cell); cell.cellClicked = true; setOpenClosed('open')}
         if (!state.gameOn && !state.gameOver) {
             props.changeGameOn(true)
             let payload = {
-                size: state.boardsize, numMines: state.numOfMines, row: cell.row, column: cell.column
+                size: state.boardSize, numMines: state.numOfMines, row: cell.row, column: cell.column
             }
             props.placeMines(payload)
         } 
+        // console.log(state.gameBoard)
         if (cell.mineInCell) {cell.cellContents = '💣'} else if (cell.minesAround) {cell.cellContents = cell.minesAround} else {cell.cellContents = ''}
+        cell.cellClicked = true
+        // props.updateCell(cell)
+        // console.log(cell.cellContents)
         // dataService.placeMines(4, 2, props.row, props.column)
-        // console.log(state.gameOn)
-    }
+        // console.log(cell.mineInCell)
+        }
     
     const handleRightClick = (ev)=> {
         ev.preventDefault()
@@ -36,8 +42,8 @@ function _SingleCell(props) {
     }    
 
     return (
-        <td className={`single-cell ${openClosed}`} onClick={handleLeftClick} onContextMenu={handleRightClick}>
-            {(cell.cellContents) ? cell.cellContents : ''}
+        <td className={`single-cell ${openClosed()}`} onClick={handleLeftClick} onContextMenu={handleRightClick}>
+            {cell.cellContents}
         </td>
     )
 }

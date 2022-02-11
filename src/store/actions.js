@@ -23,6 +23,8 @@ export function updateCell(cell){
 export function placeMines(payload){ 
     return async (dispatch) => {
     let board = await dataService.placeMines(payload)
+    // console.log('HELLO!!', board)
+
     dispatch({type: 'UPDATE_BOARD', gameBoard: board})
     }
 }
