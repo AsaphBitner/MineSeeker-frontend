@@ -8,7 +8,7 @@ export default function myReducer(state = defaultState, action = {}){
         case 'UPDATE_STATE':
             return state
         case 'UPDATE_BOARD':
-            console.log(action.gameBoard)
+            // console.log(action.gameBoard)
             return {...state, gameBoard: action.gameBoard}
         case 'CHANGE_SIZE':
             return {...state, boardSize: action.boardSize}

@@ -63,11 +63,11 @@ async function placeMines({size, numMines, row, column}) {
         }
     }
     
-    // for (let ll = 0; ll < size; ll++){
-    //     for (let mm = 0; mm < size; mm++){
-    //         board[ll][mm].minesAround = updateMinesAround(board, size, ll, mm)
-    //     }
-    // }        
+    for (let ll = 0; ll < size; ll++){
+        for (let mm = 0; mm < size; mm++){
+            board[ll][mm].minesAround = updateMinesAround(board, size, ll, mm)
+        }
+    }        
     // console.log('SAVING ', board)
     await _save('gameBoard', board)
     return board
@@ -75,12 +75,12 @@ async function placeMines({size, numMines, row, column}) {
 
 function updateMinesAround(board, size, row, column){
     let counter = 0
-    // for (var ii = row-1; ii < row+2; ii++) {
-    //     for (var jj = column-1; jj < column+2; jj++) {
-    //         if (ii < 0 || jj < 0 || ii >= size || jj >= size || (ii === row && jj === column)) {continue}
-    //         else if (board[ii][jj].mineInCell) {counter++}
-    //     }
-    // } 
+    for (var ii = row-1; ii < row+2; ii++) {
+        for (var jj = column-1; jj < column+2; jj++) {
+            if (ii < 0 || jj < 0 || ii >= size || jj >= size || (ii === row && jj === column)) {continue}
+            else if (board[ii][jj].mineInCell) {counter++}
+        }
+    } 
     return counter  
 }
 

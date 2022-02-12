@@ -1,3 +1,4 @@
+import cloneDeep from "lodash.clonedeep";
 import React, { useState } from "react";
 // import { dataService } from "../../services/data-service.js"
 import { useSelector } from "react-redux";
@@ -21,9 +22,11 @@ function _SingleCell(props) {
             let payload = {
                 size: state.boardSize, numMines: state.numOfMines, row: cell.row, column: cell.column
             }
-            await props.placeMines(payload)
+            let newBoard = await props.placeMines(payload)
+            // console.log(newBoard)
+            cell = cloneDeep(newBoard[cell.row][cell.column])
+            props.updateCell(cell)
         } 
-        // console.log(state.gameBoard)
         if (cell.mineInCell) {cell.cellContents = '💣'} else if (cell.minesAround) {cell.cellContents = cell.minesAround} else {cell.cellContents = ''}
         cell.cellClicked = true
         props.updateCell(cell)
