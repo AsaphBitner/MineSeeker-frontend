@@ -7,7 +7,8 @@ export const dataService = {
     _save,
     _load,
     updateCell,
-    placeMines
+    placeMines,
+    openAround,
 }
 
 
@@ -82,6 +83,30 @@ function updateMinesAround(board, size, row, column){
         }
     } 
     return counter  
+}
+
+async function openAround(cell){
+    // console.log(cell)
+    let row = cell.row
+    let column = cell.column
+    let oldBoard = await _load('gameBoard')
+    let size = oldBoard.length
+    
+    for (var ii = row-1; ii < row+2; ii++) {
+        for (var jj = column-1; jj < column+2; jj++) {
+            let board = await _load('gameBoard')
+            if (ii < 0 || jj < 0 || ii >= size || jj >= size || board[ii][jj].cellClicked === true) {continue}
+            board[ii][jj].cellClicked = true
+            if (board[ii][jj].minesAround > 0) {board[ii][jj].cellContents = `${board[ii][jj].minesAround}`} else {board[ii][jj].cellContents = ''}
+            await _save('gameBoard', board )
+            if (board[ii][jj].minesAround === 0) {
+                board[ii][jj].cellContents = ''
+                var temp = await openAround(board[ii][jj])
+            }
+        }
+    }
+    let toReturnBoard = await _load('gameBoard')
+    return toReturnBoard
 }
 
 

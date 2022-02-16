@@ -103,25 +103,28 @@ function _MainGamePage(props) {
                 default:
                     return state.numOfMines
         }
-    }
-    //  useEffect(
-    //     async ()=> {
-    //         switch (boardSize) {
-    //             case 4:
-    //                 setNumOfMines(oldNum => 2)
-    //                 break;                
-    //             case 8:
-    //                 setNumOfMines(oldNum => 12)
-    //                 break;
-    //             case 12:
-    //                 setNumOfMines(oldNum => 30)
-    //                 break;    
-    //             default:
-    //                 console.log('No Mines!!!!!!!')
-    //         }
-    //     }, [boardSize])
-    // console.log(state)
 
+    }
+
+    const calculatePoints = ()=> {
+        let points;
+        if (state.boardSize === 4) {points = 2000} else if (state.boardSize === 8) {points = 4000} else {points = 10000}
+        let deduct = (state.time.seconds)+(state.time.miutes*60)+(state.time.hours*60*60)+(state.time.hundreds*60*60*100)
+        points -= deduct
+        if (points < 0) {points = 0}
+        return points
+    }
+
+    useEffect(()=>{
+        if (state.gameOver && state.lives === 0) {
+            props.changeSmiley('😥')
+        }
+        else if (state.gameOver && state.lives > 0) {
+            let points = calculatePoints()
+            console.log(points)
+            props.changeSmiley('😎')
+        }    
+    }, [state.gameOver])
 
 
 

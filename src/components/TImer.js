@@ -29,6 +29,7 @@ function _Timer(props) {
         // timeToShow = `${zeroHr()}${time.hours}:${zeroMin()}${time.minutes}:${zeroSec()}${time.seconds}`
         setTimeToShow(`${zeroHr()}${time.hours}:${zeroMin()}${time.minutes}:${zeroSec()}${time.seconds}`)
         // console.log(time) 
+        props.changeTime({time})
     }
     // }
 
