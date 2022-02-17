@@ -144,7 +144,7 @@ function _MainGamePage(props) {
                 </div>
                 <div className="smiley-and-board">
                 <Smiley resetGame={resetGame} />
-                <GameBoard />
+                <GameBoard /> 
                 </div>
             </div>
         </div>
