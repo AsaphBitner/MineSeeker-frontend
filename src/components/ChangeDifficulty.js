@@ -1,11 +1,11 @@
 import React from "react";
 // import { dataService } from "../../services/data-service.js"
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { connect } from "react-redux";
 import { updateCell, buildNewBoard, changeBoardSize, changeGameOver, changeGameOn, changeNumOfMines, changeLives, changeSafeClicks, changeSmiley, changeFlags, changeTime } from "../store/actions.js"
 
 function _ChangeDifficulty(props) {
-    let state = useSelector(state => state)
+    // let state = useSelector(state => state)
     // console.log(cell)
     
     const handleLeftClickEasy = (ev)=> {

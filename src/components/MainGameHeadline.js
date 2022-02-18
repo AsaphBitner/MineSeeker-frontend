@@ -4,7 +4,7 @@ export default function MainGameHeadline() {
     return (
         <div className="main-game-headline">
             <h1>
-            💣MineSeeker💣
+            💣MINESEEKER💣
             </h1>
         </div>
     )

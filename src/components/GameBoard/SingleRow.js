@@ -5,7 +5,7 @@ import {SingleCell} from './SingleCell.js'
 export default function SingleRow(props) {
 
     return (
-        <tr>
+        <tr className="single-row">
             {props.row.map(cell => <SingleCell cell={{cell}} key={cell._id} />)}
         </tr>
     )

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {useEffect} from 'react'
-// import cloneDeep from 'lodash/cloneDeep'
 import { useSelector } from "react-redux";
 import { changeTime } from "../store/actions";
 import { connect } from "react-redux";
@@ -16,30 +15,22 @@ function _Timer(props) {
     const zeroMin = () => {return (time.minutes < 10) ? '0' : ''}
     const zeroHr = () => {return (time.hours < 10) ? '0' : ''}
     
-    // const getUpdateTime = () => {
-    //     const globalState = state
     const updateTime = () => {
         let tempTime = time       
         tempTime.seconds++
         if (tempTime.seconds === 60) {tempTime.seconds = 0; tempTime.minutes++}
         if (tempTime.minutes === 60) {tempTime.minutes = 0; tempTime.hours++}
         if (tempTime.hours === 100) {tempTime.hours = 0; tempTime.hundreds++}
-        // console.log('TEMPTIME: ', tempTime)
         setTime(tempTime)
-        // timeToShow = `${zeroHr()}${time.hours}:${zeroMin()}${time.minutes}:${zeroSec()}${time.seconds}`
         setTimeToShow(`${zeroHr()}${time.hours}:${zeroMin()}${time.minutes}:${zeroSec()}${time.seconds}`)
-        // console.log(time) 
         props.changeTime({time})
     }
-    // }
 
 
     
     useEffect(()=>{
         if (state.gameOn && timerInterval === undefined) 
             {
-            // setTime({seconds: 0, minutes: 0, hours: 0, hundreds: 0})
-            // setTimeToShow(`00:00:00`)    
             timerInterval = setInterval(updateTime, 1000)
             }
         
@@ -54,7 +45,6 @@ function _Timer(props) {
     useEffect(() => {
             setTime({seconds: 0, minutes: 0, hours: 0, hundreds: 0})
             setTimeToShow(`00:00:00`)
-            // console.log(state.zeroTimer)
     }, [state.zeroTimer])
 
 
@@ -74,11 +64,3 @@ const mapStateToProps = state => {
 
   export const Timer = connect(mapStateToProps, mapDispatchToProps)(_Timer)
 
-
-
-
-
-
-
-
-{/* {(time) ? `${zeroHr()}${time.hours}:${zeroMin()}${time.minutes}:${zeroSec()}${time.seconds}` : 'NO TIME'} */}

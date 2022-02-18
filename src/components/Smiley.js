@@ -2,8 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { changeSmiley } from "../store/actions"
 import { connect } from "react-redux";
-// import {useEffect} from 'react'
-// import cloneDeep from 'lodash/cloneDeep'
 
 
 function _Smiley(props) {

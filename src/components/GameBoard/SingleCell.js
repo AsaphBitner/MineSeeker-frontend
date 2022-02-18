@@ -1,24 +1,41 @@
 import cloneDeep from "lodash.clonedeep";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { dataService } from "../../services/data-service.js"
 import { useSelector } from "react-redux";
 import { connect } from "react-redux";
-import { updateCell, buildNewBoard, placeMines, openAround, changeBoardSize, changeGameOver, changeGameOn, changeNumOfMines, changeLives, changeSafeClicks, changeSmiley, changeFlags, changeTime } from "../../store/actions.js"
+import { updateCell, buildNewBoard, placeMines, openAround, showBombs, changeBoardSize, changeGameOver, changeGameOn, changeNumOfMines, changeLives, changeSmiley, changeFlags, changeTime } from "../../store/actions.js"
 
 function _SingleCell(props) {
-    let [safeClickTOs, setSafeClickTOs] = useState(0)
+    // let [safeClickTOs, setSafeClickTOs] = useState(0)
     let state = useSelector(state => state)
     let cell = props.cell.cell
+    let [timeOutMines, setTimeOutMines] = useState(null)
+    let [cellBackground, setCellBackground] = useState('')
+ 
     const openClosed = () => {
         if (cell.cellClicked) {return 'open'} else {return 'closed'}
         }
-    const checkVictory = () => {
+    
+    const showNeutralized = ()=> {
+        for (let ii = 0; ii < state.boardSize; ii++) {
+            for (let jj = 0; jj < state.boardSize; jj++) {
+            if (cell.mineInCell && cell.flagInCell) {setCellBackground('cell-green-background')}
+            if (cell.mineInCell && !cell.flagInCell) {setCellBackground('cell-red-background')}
+            if (!cell.mineInCell && cell.flagInCell) {setCellBackground('cell-blue-background')}
+            if (!cell.mineInCell && !cell.flagInCell) {setCellBackground('')}
+            }
+        }
+    }
+    
+    /////////////////////////////////////////////////////////////////////
+
+        const checkVictory = () => {
         if (state.numOfFlags > 0) {return false}
         // let victoryStatus = true
         for (let ii = 0; ii < state.boardSize; ii++){
             for (let jj = 0; jj < state.boardSize; jj++){
-                if (state.gameBoard[ii][jj].flagInCell && !state.gameBoard[ii][jj].mineInCell 
-                    || !state.gameBoard[ii][jj].flagInCell && state.gameBoard[ii][jj].mineInCell) 
+                if ((state.gameBoard[ii][jj].flagInCell && !state.gameBoard[ii][jj].mineInCell) 
+                    || (!state.gameBoard[ii][jj].flagInCell && state.gameBoard[ii][jj].mineInCell)) 
                 {return false} 
             }
         }
@@ -26,6 +43,8 @@ function _SingleCell(props) {
     }    
     // console.log(cell)
         
+//////////////////////////////////////////////////////////////////////////////////////////////
+
     const handleLeftClick = async (ev)=> {
         ev.preventDefault()
         if (cell.flagInCell || cell.cellClicked || state.gameOver) {return}
@@ -40,22 +59,31 @@ function _SingleCell(props) {
             props.updateCell(cell)
         } 
         if (cell.mineInCell) {
-            cell.cellContents = '💣'
-            setSafeClickTOs(safeClickTOs+1)
-            setTimeout( async () => {
-                await setSafeClickTOs(safeClickTOs-1)
-                if (safeClickTOs === 0 && !state.gameOver && state.gameOn && !cell.cellClicked && !cell.flagInCell)
-                {cell.cellContents = ''; props.updateCell(cell)}
-            }, 5000);
+            // setSafeClickTOs(safeClickTOs+1)
+            if (timeOutMines) {clearTimeout(timeOutMines); setTimeOutMines(null)}
             if (state.lives > 1) {
+                cell.cellContents = '💣'
                 props.changeLives(state.lives-1)
                 props.updateCell(cell)
+                setTimeOutMines(setTimeout(() => {
+                    if (state.gameOver || !state.gameOn || cell.cellClicked || cell.flagInCell ) {return}
+                    else {cell.cellContents = '' 
+                          props.updateCell(cell)}
+                    timeOutMines = null
+                }, 5000))
                 return
             }
             else {
+                if (timeOutMines) {clearTimeout(timeOutMines); setTimeOutMines(null)}
                 props.changeLives(state.lives-1)
                 props.changeGameOn(false)
                 props.changeGameOver(true)
+                cell.cellContents = '💥'
+                cell.cellClicked = true
+                props.updateCell(cell)
+                // console.log('HELLO!!!')
+                props.showBombs(cell)
+                return
             }
         } 
         else if (cell.minesAround) {cell.cellContents = `${cell.minesAround}`} 
@@ -73,22 +101,39 @@ function _SingleCell(props) {
     
     const handleRightClick = async (ev)=> {
         ev.preventDefault()
+        if (timeOutMines) {clearTimeout(timeOutMines); setTimeOutMines(null)}
         if (state.gameOver || !state.gameOn || cell.cellClicked) {return}
+        
         else if (cell.flagInCell) {cell.flagInCell = false; cell.cellContents = ''; props.changeFlags(state.numOfFlags+1); props.updateCell(cell)}
-        else if (!props.flagInCell && state.numOfFlags > 0) {
+        
+        else if (!cell.flagInCell && state.numOfFlags > 0) {
         cell.flagInCell = true; 
         cell.cellContents = '🚩'; 
-        props.changeFlags(state.numOfFlags-1); 
+        await props.changeFlags(state.numOfFlags-1); 
         await props.updateCell(cell)
-        if (checkVictory()){
-            props.changeGameOn(false)
-            props.changeGameOver(true)
-        }
+        // cell = cloneDeep(state.gameBoard[cell.row][cell.column])
     }       
     }    
 
+    useEffect(()=> {
+        // console.log(state.numOfFlags)
+        const victory = checkVictory()
+        if (victory){
+            props.changeGameOn(false)
+            props.changeGameOver(true)
+        }
+    }, [state.numOfFlags])
+
+    useEffect(()=> {
+        if (!state.gameOn || state.gameOver) {
+            if (timeOutMines) {clearTimeout(timeOutMines); setTimeOutMines(null)}
+            showNeutralized()
+        }
+    }, [state.gameOn, state.gameOver])
+
+
     return (
-        <td className={`single-cell ${openClosed()}`} onClick={handleLeftClick} onContextMenu={handleRightClick}>
+        <td className={`single-cell ${openClosed()} ${cellBackground}`} onClick={handleLeftClick} onContextMenu={handleRightClick}>
             {cell.cellContents}
         </td>
     )
@@ -104,13 +149,13 @@ const mapStateToProps = state => {
     changeGameOn,
     changeGameOver,
     changeNumOfMines,
-    changeLives, 
-    changeSafeClicks, 
+    changeLives,  
     changeSmiley,
     changeFlags,
     changeTime,
     placeMines,
     openAround,
+    showBombs,
   }
 
   export const SingleCell = connect(mapStateToProps, mapDispatchToProps)(_SingleCell)
@@ -126,25 +171,4 @@ const mapStateToProps = state => {
           // {/* <td onClick={handleClick('left')} onContextMenu={handleClick('right')}> */}
           // {/* |R{props.cell.row}C{props.cell.column}|  */}
           
-          // _id: props._id, mineInCell: props.mineInCell, flagInCell: props.flagInCell, cellClicked: props.cellClicked, 
-          //     minesAround: props.minesAround, row: props.row, column: props.column, cellContents: props.cellContents
-          
-          // let cellToShow = () => {
-          //     // if (!cellClicked)
-          //     switch(props.cellContents) {
-          //         case '💥':
-          //             return '💥'
-          //         case '💣':
-          //             return '💣'
-          //         case '🚩':
-          //             return '🚩'
-          //         case '':
-          //             return 'N'
-                  // case 'CHANGE_GAME_OVER':
-                  //     return {...state, gameOver: action.order}
-                  // case 'CHANGE_MINES':
-                  //     return {...state, numOfMines: action.numOfMines}
-          //         default:
-          //             return ''
-          // }}
-        //   state.gameBoard[props.cell.cell.row].find((item) => props.cell.cell._id === item._id)
+         

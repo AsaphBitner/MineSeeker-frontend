@@ -9,6 +9,7 @@ export const dataService = {
     updateCell,
     placeMines,
     openAround,
+    showBombs,
 }
 
 
@@ -95,13 +96,13 @@ async function openAround(cell){
     for (var ii = row-1; ii < row+2; ii++) {
         for (var jj = column-1; jj < column+2; jj++) {
             let board = await _load('gameBoard')
-            if (ii < 0 || jj < 0 || ii >= size || jj >= size || board[ii][jj].cellClicked === true) {continue}
+            if (ii < 0 || jj < 0 || ii >= size || jj >= size || board[ii][jj].cellClicked === true || board[ii][jj].flagInCell === true) {continue}
             board[ii][jj].cellClicked = true
             if (board[ii][jj].minesAround > 0) {board[ii][jj].cellContents = `${board[ii][jj].minesAround}`} else {board[ii][jj].cellContents = ''}
             await _save('gameBoard', board )
             if (board[ii][jj].minesAround === 0) {
                 board[ii][jj].cellContents = ''
-                var temp = await openAround(board[ii][jj])
+                await openAround(board[ii][jj])
             }
         }
     }
@@ -109,29 +110,27 @@ async function openAround(cell){
     return toReturnBoard
 }
 
+async function showBombs(cell){
+    let board = await _load('gameBoard')
+    let size = await _load('boardSize')
+    board[cell.row][cell.column].cellClicked = true
+    board[cell.row][cell.column].cellContents = '💥'
 
-// Beginner (4*4 with 2 MINES)
-// Medium (8 * 8 with 12 MINES)
-// Expert (12 * 12 with 30 MINES)
-
-//             onclick="cellClicked(this,${i},${j})">${board[i][j]}</td>`
-// oncontextmenu="rightClick(); return false" onclick="leftClick()
-
-// function renderBoard(board) {
-//     var elBoard = document.querySelector('.game_board');
-//     elBoard.innerHTML = '<table border="1" class= "game_board"';
-//     var strHTML = ''
-//     for (var i = 0; i < board.length; i++) {
-//         strHTML += '<tr>'
-//         for (var j = 0; j < board[0].length; j++) {
-//             strHTML += `<td class="unclicked" id="${i}-${j}" oncontextmenu="rightClick(${i}, ${j}); return false" onclick="leftClick(${i}, ${j})"><td/>`;
-//         }
-//         strHTML += '</tr>'
-//     };
-//     elBoard.innerHTML += strHTML;
-//     elBoard.innerHTML += '</table>';
-// }
-
+    for (let ii = 0; ii < size; ii++) {
+        for (let jj = 0; jj < size; jj++) {
+            if (board[ii][jj].cellClicked || (ii === cell.row && jj === cell.column)) {continue}
+            else {
+                board[ii][jj].cellClicked = true
+            if (board[ii][jj].flagInCell) {board[ii][jj].cellContents = '🚩'; continue} 
+            else if (board[ii][jj].mineInCell) {board[ii][jj].cellContents = '💣'}
+            else {(board[ii][jj].minesAround > 0) ? board[ii][jj].cellContents = board[ii][jj].minesAround : board[ii][jj].cellContents = ''}
+            
+        }    
+        }
+    }
+    await _save('gameBoard', board)
+    return board
+}
 
 function makeId(length = 7) {
     var text = ''

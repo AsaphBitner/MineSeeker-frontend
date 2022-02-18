@@ -38,6 +38,14 @@ export function openAround(payload){
     }
 }
 
+export function showBombs(payload){ 
+    return async (dispatch) => {
+    let board = await dataService.showBombs(payload)
+    dispatch({type: 'UPDATE_BOARD', gameBoard: board})
+    return board
+    }
+}
+
 export function changeBoardSize(size) {
     return async (dispatch) => {
         await dataService._save('boardSize', size)

@@ -7,28 +7,18 @@ import { connect } from "react-redux";
 function _Lives(props) {
     let state = useSelector(state => state)
 
-    let livesToShow = ()=> 
-        {switch (state.lives) {
-            case 4:
-                return `💖 💖 💖`
-            case 3: 
-                return '💖 💖 _'
-            case 2:
-                return '💖 _ _'
-            case 1: 
-                return '_ _ _'    
-            default:
-                return '_ _ _';
-        }}
-
         const noExtraLives = () => {
             if (state.gameOn) {props.changeLives(1)}
         }
 
 
     return (
-        <div className="extra-lives" onClick={() => noExtraLives()}>
-         {livesToShow()}
+        <div className="lives" onClick={() => noExtraLives()}>
+         {/* <div className={`extra-lives-number ${(state.lives < 2) ? 'no-display' : ''}`}>{(state.lives >= 2) ? (state.lives-1) : ''}</div> */}
+         <div className={`heart ${(state.lives < 4) ? 'no-display' : ''}`}>{(state.lives >= 4) ? '💖' : ''}</div>
+         <div className={`heart ${(state.lives < 3) ? 'no-display' : ''}`}>{(state.lives >= 3) ? '💖' : ''}</div>
+         <div className={`heart ${(state.lives < 2) ? 'no-display' : ''}`}>{(state.lives >= 2) ? '💖' : ''}</div>
+         <div className={`extra-lives-zero ${(state.lives > 1) ? 'no-display' : ''}`}>{(state.lives <= 1) ? '💔' : ''}</div>
         </div>
     )
 }
