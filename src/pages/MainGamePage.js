@@ -49,10 +49,9 @@ function _MainGamePage(props) {
         props.changeFlags(getNumOfMines(size))
         props.changeTime({})
         props.zeroTimer(geteZeroTimer())
-        // props.zeroTimer('false')
     }
 
-    const geteZeroTimer = ()=> {if (state.zeroTimer <= 1000) {return (state.zeroTimer+1)} else {return 0}}
+    const geteZeroTimer = ()=> {if (state.zeroTimer <= 999) {return (state.zeroTimer+1)} else {return 0}}
 
     const getNumOfMines = (size) => {
                 switch (size) {

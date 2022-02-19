@@ -113,8 +113,6 @@ async function openAround(cell){
 async function showBombs(cell){
     let board = await _load('gameBoard')
     let size = await _load('boardSize')
-    board[cell.row][cell.column].cellClicked = true
-    board[cell.row][cell.column].cellContents = '💥'
 
     for (let ii = 0; ii < size; ii++) {
         for (let jj = 0; jj < size; jj++) {

@@ -11,7 +11,8 @@ function _Flags(props) {
 
     return (
         <div className="game-flags">
-            🚩{flags}
+            <div className="flag-icon">🚩</div>
+            <div className="num-of-flags">{(flags < 10) ? `0${flags}` : flags}</div>
         </div>
     )
 }

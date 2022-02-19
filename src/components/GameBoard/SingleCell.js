@@ -70,7 +70,7 @@ function _SingleCell(props) {
                     else {cell.cellContents = '' 
                           props.updateCell(cell)}
                     timeOutMines = null
-                }, 5000))
+                }, 9000))
                 return
             }
             else {
@@ -78,11 +78,11 @@ function _SingleCell(props) {
                 props.changeLives(state.lives-1)
                 props.changeGameOn(false)
                 props.changeGameOver(true)
+                await props.showBombs(cell)
                 cell.cellContents = '💥'
                 cell.cellClicked = true
                 props.updateCell(cell)
                 // console.log('HELLO!!!')
-                props.showBombs(cell)
                 return
             }
         } 
@@ -121,6 +121,7 @@ function _SingleCell(props) {
         if (victory){
             props.changeGameOn(false)
             props.changeGameOver(true)
+            props.showBombs(cell)
         }
     }, [state.numOfFlags])
 

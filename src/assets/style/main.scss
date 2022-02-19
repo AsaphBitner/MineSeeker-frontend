@@ -4,13 +4,16 @@
 }
 
 body{
+   width: 100%;
    background-color: rgb(201, 225, 248);
    margin: 0;
    padding: 0; 
 }
 
 .main-game-headline{
+   width: 100%;
    h1{
+   width: 100%;
    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    height: 100%;
    width: 100%;   
@@ -37,11 +40,11 @@ body{
    display: flex;
    flex-direction: row;
    height: 2rem;
-   width: 40rem;
+   // max-width: 40rem;
    // align-items: space-between;
    align-items: center;
    justify-content: center;
-   gap: 0rem;
+   gap: .8rem;
    margin-bottom: 2rem;
    // background-color: aqua;
    *{
@@ -51,9 +54,6 @@ body{
       justify-content: center;
       text-align: center;
       border-radius: .6rem;
-      // font-size: 1rem;
-      width: 12rem;
-      // min-width: 2rem;
       height: 2rem;
 
     }
@@ -64,7 +64,6 @@ body{
    flex-direction: row;
    gap: 0.2rem;
    background-color: rgb(145, 199, 250);
-   width: 11rem;
    button{
       font-size: .9rem;
       border-radius: 10%;
@@ -78,26 +77,42 @@ body{
    }
 }
 
-.lives{
-   // position: relative;
+.lives-and-flags{
+   padding: 0;
+   margin-top: 0;
    display: flex;
    flex-direction: row;
-   font-size: 1.2rem;
-   height: 1.6rem;
-   background-color: rgb(102, 130, 153);
-   justify-content: center;
-   align-items: center;
-   padding-bottom: .9rem;
-   max-width: 8rem;
-   cursor: pointer;
-
-   .extra-lives-zero{
+   // height: 100%;
+   gap: .3rem;
+   *{
+      padding: 0.1rem .4rem .4rem;
+      background-color: rgb(102, 130, 153);
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
       color: whitesmoke;
-      padding-top: .2rem;
-      font-size: 1.3rem;
+      gap: .4rem;
    }
 }
 
+.lives{
+   cursor: pointer;
+   *{
+      padding: 0;
+   }
+   .extra-lives{
+      color: whitesmoke;
+   }
+}
+
+.game-flags{
+*{
+   padding: 0;
+}
+}
 
 .game-timer{
    height: 1.6rem;
@@ -106,7 +121,6 @@ body{
    color: whitesmoke;
    font-size: 1.1rem;
    padding-top: .7rem;
-   // padding
 }
 
 
@@ -115,7 +129,7 @@ body{
    flex-direction: column;
    align-items: center;
    justify-content: center;
-   gap: .4rem;
+   gap: .3rem;
    margin-bottom: 3rem;
 }
 
@@ -124,20 +138,15 @@ body{
    font-size: 1.7rem;
    cursor: pointer;
    border-radius: 50%;
-   // height: 80%;
-   // width: 100%;
 }
 .smiley:hover{
    background-color: rgb(119, 147, 173);
-   // border: .2rem solid black;
-   // font-size: 2.25rem;
 }
 
 
 .game-board-container{
    display: flex;
    flex-direction: column;
-   // width: 10rem;
    border: .3rem solid black;
    padding: 0;
 }
@@ -146,14 +155,14 @@ body{
 .single-row{
    display: flex;
    flex-direction: row;
-   width: 100%;
-   height: 100%;
+   // width: 100%;
+   // height: 100%;
    border: none;
 }
 
 .single-cell{
-   width: 2.2rem;
-   height: 2.2rem;
+   width: 1.9rem;
+   height: 1.9rem;
    display: flex; 
    flex-direction: row;
    align-items: center;
@@ -161,8 +170,7 @@ body{
    cursor: pointer;
    border: .1rem solid black;
 }
-// .single-cell:hover{
-// }
+
 
 .closed{
    background-color: silver;
@@ -189,6 +197,74 @@ body{
 .cell-blue-background{
    background-color: rgb(0, 0, 255, 0.3);
 }
+
+
+
+//===================== MEDIA QUERIES ===============================
+
+@media screen and (max-width: 680px) {
+   
+   .main-game-headline{
+      width: 100%;
+      // margin: 0;
+      h1{
+         font-size: 3rem;
+         // background-color: pink;
+         width: 100%;
+      }
+   }
+
+   .game-area{
+      margin-top: 0rem;
+      padding-top: .1rem;
+   }
+
+   .game-sub-area{
+      flex-direction: column;
+      padding: 0;
+      margin: 0;
+      gap: 0rem;
+      height: 8.8rem;
+      margin-bottom: 1rem;
+      
+   }
+   .lives-and-flags{
+      margin-top: .5rem;
+   }
+
+   .smiley-and-board{
+      margin-bottom: 1rem;
+   }
+
+}
+
+
+@media screen and (max-width: 545px) {
+
+   .single-cell{
+      height: 1.5rem;
+      width: 1.5rem;
+   }
+
+}
+
+@media screen and (max-width: 480px){
+   .main-game-headline{
+      // width: 100vw;
+      h1{
+         width: 100%;
+         font-size: 2.4rem;
+         // background-color: pink;
+      }
+   }
+}
+
+
+
+
+
+
+
 
 
 

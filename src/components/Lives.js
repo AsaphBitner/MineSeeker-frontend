@@ -14,11 +14,8 @@ function _Lives(props) {
 
     return (
         <div className="lives" onClick={() => noExtraLives()}>
-         {/* <div className={`extra-lives-number ${(state.lives < 2) ? 'no-display' : ''}`}>{(state.lives >= 2) ? (state.lives-1) : ''}</div> */}
-         <div className={`heart ${(state.lives < 4) ? 'no-display' : ''}`}>{(state.lives >= 4) ? '💖' : ''}</div>
-         <div className={`heart ${(state.lives < 3) ? 'no-display' : ''}`}>{(state.lives >= 3) ? '💖' : ''}</div>
-         <div className={`heart ${(state.lives < 2) ? 'no-display' : ''}`}>{(state.lives >= 2) ? '💖' : ''}</div>
-         <div className={`extra-lives-zero ${(state.lives > 1) ? 'no-display' : ''}`}>{(state.lives <= 1) ? '💔' : ''}</div>
+        <div className="heart">{(state.lives > 1) ? '💖' : '💔'}</div>
+        <div className="extra-lives">{(state.lives > 1) ? `0${(state.lives)-1}` : `00`}</div>  
         </div>
     )
 }
@@ -30,3 +27,10 @@ const mapStateToProps = state => {
   }
 
   export const Lives = connect(mapStateToProps, mapDispatchToProps)(_Lives)
+
+    // {/* <div className={`extra-lives-number ${(state.lives < 2) ? 'no-display' : ''}`}>{(state.lives >= 2) ? (state.lives-1) : ''}</div> */}
+    // {/* <div className={`heart ${(state.lives < 4) ? 'no-display' : ''}`}>{(state.lives >= 4) ? '💖' : ''}</div>
+    // <div className={`heart ${(state.lives < 3) ? 'no-display' : ''}`}>{(state.lives >= 3) ? '💖' : ''}</div> */}
+    // {/* <div className={`heart ${(state.lives < 2) ? 'no-display' : ''}`}>{(state.lives >= 2) ? '💖' : ''}</div>
+    // <div className={`extra-lives-zero ${(state.lives > 1) ? 'no-display' : ''}`}>{(state.lives <= 1) ? '💔' : ''}</div> */}
+    
