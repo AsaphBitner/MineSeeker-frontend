@@ -1,8 +1,10 @@
 import React from "react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+// import { useNavigate } from "react-router-dom"
 import { buildNewBoard, changeBoardSize, changeGameOver, changeGameOn, changeNumOfMines, changeLives, changeSmiley, changeFlags, changeTime, zeroTimer } from "../store/actions.js"
 import { connect } from "react-redux"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 // import { dataService } from "../services/data-service.js"
 //===============================================================================
 
@@ -19,10 +21,10 @@ import { ChangeDifficulty } from "../components/ChangeDifficulty.js"
 import { Flags } from "../components/Flags.js"
 //===============================================================================
 
-// let navigate = useNavigate()
 
 function _MainGamePage(props) {
     const state = useSelector(state => state)
+    let navigate = useNavigate()
 
     useEffect(() => {
         props.changeBoardSize(4)
@@ -79,12 +81,15 @@ function _MainGamePage(props) {
         }    
     }, [state.gameOver])
 
-
+    const navigateTo = (destination) => {
+        navigate(destination)
+    }
 
 
     if (state) return (
         <div className="main-game-page">
             <MainGameHeadline />
+            <button className="navigate-button" onClick={()=> navigateTo('/instructions')}>GO TO INSTRUCTIONS</button>
             <div className="game-area">
                 <div className="game-sub-area">
                     <ChangeDifficulty resetGame={resetGame} />
