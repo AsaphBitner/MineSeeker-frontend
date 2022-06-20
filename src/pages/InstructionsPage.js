@@ -28,6 +28,7 @@ function _InstructionsPage(props){
     
     const keyAction = (ev)=> {
         if(!ev.key) {return}
+        if(ev.key === 'Shift') {return}
         if(codeKeys.length === 2 && ev.key === 'ArrowUp'){return}
         if(ev.key.toLowerCase() === kCode[codeKeys.length].toLowerCase()){setCodeKeys((codeKeys) => [...codeKeys, ev.key])}
         else {setCodeKeys(() => []); setAAA('NOT CODE'); return}        
@@ -48,6 +49,12 @@ function _InstructionsPage(props){
             <h1>
                 {codeKeys}
             </h1>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
             <h1>
                 {AAA}
             </h1>
